@@ -32,10 +32,6 @@ console.log('\n--- Assignment 1 ---------------------------------------')
 function makeOptions(inv, prop) {
 
   const filteredProperties = Object.keys(inventory).filter(name => inventory[name][prop]).map(name => `<option value="${name}" key="${name}">${name}, ${inventory[name].price} kr</option>`);
-
-
-
-
   return filteredProperties;
 }
 
@@ -43,16 +39,33 @@ console.log(makeOptions(inventory, 'foundation'));
 
 console.log('\n--- Assignment 2 ---------------------------------------')
 class Salad {
-  constructor() { }
-  add(name, properties) { }
-  remove(name) { }
+  constructor() { 
+    this.ingredients = {}
+  }
+  add(name, properties) { 
+    this.ingredients[name] = properties;
+    return this;
+  }
+  remove(name) { 
+    if(this.ingredients.hasOwnProperty(name)){
+      delete this.ingredients[name];
+  }
+  return this;
+}
+
+getPrice() {
+  return Object.values(this.ingredients).reduce((total, ingredient) => total + ingredient.price, 0);
+}
+
+count(property) {
+  return Object.values(this.ingredients).filter(ingredient => ingredient[property] === true).length;
+}
 }
 
 
 
 
 
-/*
 let myCaesarSalad = new Salad()
   .add('Sallad', inventory['Sallad'])
   .add('Kycklingfilé', inventory['Kycklingfilé'])
@@ -64,13 +77,13 @@ let myCaesarSalad = new Salad()
 console.log(JSON.stringify(myCaesarSalad) + '\n');
 myCaesarSalad.remove('Gurka');
 console.log(JSON.stringify(myCaesarSalad) + '\n');
-*/
+
 console.log('\n--- Assignment 3 ---------------------------------------')
-//console.log('En ceasarsallad kostar ' + myCaesarSalad.getPrice() + 'kr');
-// En ceasarsallad kostar 45kr
-//console.log('En ceasarsallad har ' + myCaesarSalad.count('lactose') + ' ingredienser med laktos');
+console.log('En ceasarsallad kostar ' + myCaesarSalad.getPrice() + 'kr');
+//En ceasarsallad kostar 45kr
+console.log('En ceasarsallad har ' + myCaesarSalad.count('lactose') + ' ingredienser med laktos');
 // En ceasarsallad har 2 ingredienser med laktos
-//console.log('En ceasarsallad har ' + myCaesarSalad.count('extra') + ' tillbehör');
+console.log('En ceasarsallad har ' + myCaesarSalad.count('extra') + ' tillbehör');
 // En ceasarsallad har 3 tillbehör
 
 /*
