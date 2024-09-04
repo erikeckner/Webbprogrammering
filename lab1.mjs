@@ -2,6 +2,7 @@
 /**
  * Reflection question 1
  * your answer goes here
+ * In Javascript when abscence of a property it will assume it will be false and therefore save memory. 
  */
 
 import inventory from './inventory.mjs';
@@ -10,6 +11,7 @@ console.log('inventory:', inventory);
 
 console.log('\n--- Object.keys() ---------------------------------------')
 const names = Object.keys(inventory);
+
 names
   .sort((a, b) => a.localeCompare(b, "sv", { sensitivity: 'case' }))
   .forEach(name => console.log(name));
@@ -20,12 +22,21 @@ for (const name in inventory) {
 }
 /**
  * Reflection question 2
+ * When we have inherited propterties of an object the foreach will not print out the inherited proprty whilst the for in loop will. 
+ * For example in this a abstract object of a vegetable is lactos-free but the implementation of the object cucumber will not have that property
+ * In its own sub object. 
  */
 
 console.log('\n--- Assignment 1 ---------------------------------------')
 
 function makeOptions(inv, prop) {
-  return 'TODO';
+
+  const filteredProperties = Object.keys(inventory).filter(name => inventory[name][prop]).map(name => `<option value="${name}" key="${name}">${name}, ${inventory[name].price} kr</option>`);
+
+
+
+
+  return filteredProperties;
 }
 
 console.log(makeOptions(inventory, 'foundation'));
@@ -37,10 +48,8 @@ class Salad {
   remove(name) { }
 }
 
-{
-  const names = Object.keys(inventory);
-  names.forEach(name => console.log(name));
-}
+
+
 
 
 /*
