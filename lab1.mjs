@@ -32,7 +32,8 @@ console.log('\n--- Assignment 1 ---------------------------------------')
 
 function makeOptions(inv, prop) {
 
-  const filteredProperties = Object.keys(inventory).filter(name => inventory[name][prop]).map(name => `<option value="${name}" key="${name}">${name}, ${inventory[name].price} kr</option>`);
+  const filteredProperties = Object.keys(inventory).filter(name => inventory[name][prop])
+  .map(name => `<option value="${name}" key="${name}">${name}, ${inventory[name].price} kr</option>`);
   return filteredProperties;
 }
 
@@ -41,6 +42,7 @@ console.log(makeOptions(inventory, 'foundation'));
 console.log('\n--- Assignment 2 ---------------------------------------')
 class Salad {
   static instanceCounter = 0; 
+  
   constructor(arg) { 
     const uuid = uuidv4();
     this.id = 'salad_' + Salad.instanceCounter++;
@@ -54,6 +56,7 @@ class Salad {
     }
     else{
       this.ingredients = {};
+      this.uuid = uuidv4();
     }
   }
   add(name, properties) { 
@@ -178,10 +181,15 @@ console.log('Min gourmetsallad har uuid: ' + myGourmetSalad.uuid);
 
 /**
  * Reflection question 4
+ * In javascript the static properties are stored directly on the class itself not on a instance of the 
+ * class. It belongs to the constructor function
+ * 
  */
 /**
  * Reflection question 5
+ * Yes you can make the id property read only by using Object.defineProperty()
  */
 /**
  * Reflection question 6
+ * Yes properties can be private by using # syntax. 
  */
