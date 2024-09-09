@@ -141,6 +141,14 @@ console.log('check 1: ' + (Salad.prototype === Object.getPrototypeOf(Salad)));
 console.log('check 2: ' + (Salad.prototype === Object.getPrototypeOf(myCaesarSalad)));
 console.log('check 3: ' + (Object.prototype === Object.getPrototypeOf(Salad.prototype)));
 
+//In JavaScript, classes are syntactic sugar for constructor functions, 
+//and inheritance is based on the prototype chain. Each object has an internal reference to its prototype, 
+//and when a property or method is accessed, JavaScript looks for it in the object’s prototype chain.
+// The prototype chain is the chain of objects JS goes through when searching for a method or property that is not on the current object,
+//i.e an inhereted method from a class/object/property that the object has inhereted.
+//Functions and instances of classes have a prototype property which is the object from which instances inherits properties and methods.
+//Object.getPrototypeOf(obj) to acquire the next prototype in the prototype chain.
+
 console.log('\n--- Assignment 4 ---------------------------------------')
 
 const singleText = JSON.stringify(myCaesarSalad);
