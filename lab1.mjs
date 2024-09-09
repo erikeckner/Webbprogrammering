@@ -1,4 +1,5 @@
 'use strict';
+import { v4 as uuidv4 } from 'uuid';
 /**
  * Reflection question 1
  * your answer goes here
@@ -39,8 +40,21 @@ console.log(makeOptions(inventory, 'foundation'));
 
 console.log('\n--- Assignment 2 ---------------------------------------')
 class Salad {
-  constructor() { 
-    this.ingredients = {}
+  static instanceCounter = 0; 
+  constructor(arg) { 
+    const uuid = uuidv4();
+    this.id = 'salad_' + Salad.instanceCounter++;
+    if (arg instanceof Salad){
+      this.ingredients = {...arg.ingredients};
+      this.uuid = uuidv4();
+
+      if (arg.uuid) {
+        this.uuid = arg.uuid;  // Preserve UUID if provided (parse case)
+      }
+    }
+    else{
+      this.ingredients = {};
+    }
   }
   add(name, properties) { 
     this.ingredients[name] = properties;
@@ -52,14 +66,41 @@ class Salad {
   }
   return this;
 }
+  getPrice() {
+    return Object.values(this.ingredients).reduce((total, ingredient) => total + ingredient.price, 0);
+  }
+  count(property) {
+    return Object.values(this.ingredients).filter(ingredient => ingredient[property] === true).length;
+  } 
 
-getPrice() {
-  return Object.values(this.ingredients).reduce((total, ingredient) => total + ingredient.price, 0);
+  static parse(json){    
+    const parsedSalad = JSON.parse(json);
+
+    if(Array.isArray(parsedSalad)){
+      return parsedSalad.map(data => new Salad(data.ingredients));
+    }else{
+      return new Salad(parsedSalad.ingredients);
+    }
+  }
 }
 
-count(property) {
-  return Object.values(this.ingredients).filter(ingredient => ingredient[property] === true).length;
-}
+class GourmetSalad extends Salad{
+
+  constructor(arg = null){
+    super(arg);
+  }
+  add(name, properties, size = 1){
+    if (this.ingredients[name]){
+      this.ingredients[name].size += size;
+    }else{
+      const propertiesCopy = {...properties, size};
+      super.add(name, propertiesCopy);
+    }
+    return this
+  }
+  getPrice(){
+    return Object.values(this.ingredients).reduce((total, ingredient) => total + ingredient.price * ingredient.size, 0);
+  }
 }
 
 
@@ -86,7 +127,7 @@ console.log('En ceasarsallad har ' + myCaesarSalad.count('lactose') + ' ingredie
 console.log('En ceasarsallad har ' + myCaesarSalad.count('extra') + ' tillbehör');
 // En ceasarsallad har 3 tillbehör
 
-/*
+
 console.log('\n--- reflection question 3 ---------------------------------------')
 console.log('typeof Salad: ' + typeof Salad);
 console.log('typeof Salad.prototype: ' + typeof Salad.prototype);
@@ -96,9 +137,9 @@ console.log('typeof myCaesarSalad.prototype: ' + typeof myCaesarSalad.prototype)
 console.log('check 1: ' + (Salad.prototype === Object.getPrototypeOf(Salad)));
 console.log('check 2: ' + (Salad.prototype === Object.getPrototypeOf(myCaesarSalad)));
 console.log('check 3: ' + (Object.prototype === Object.getPrototypeOf(Salad.prototype)));
-*/
+
 console.log('\n--- Assignment 4 ---------------------------------------')
-/*
+
 const singleText = JSON.stringify(myCaesarSalad);
 const arrayText = JSON.stringify([myCaesarSalad, myCaesarSalad]);
 
@@ -114,9 +155,9 @@ console.log('Salad.parse(arrayText)\n' + JSON.stringify(arrayCopy));
 singleCopy.add('Gurka', inventory['Gurka']);
 console.log('originalet kostar ' + myCaesarSalad.getPrice() + ' kr');
 console.log('kopian med gurka kostar ' + singleCopy.getPrice() + ' kr');
-*/
+
 console.log('\n--- Assignment 5 ---------------------------------------')
-/*
+
 let myGourmetSalad = new GourmetSalad()
   .add('Sallad', inventory['Sallad'], 0.5)
   .add('Kycklingfilé', inventory['Kycklingfilé'], 2)
@@ -127,12 +168,13 @@ let myGourmetSalad = new GourmetSalad()
 console.log('Min gourmetsallad med lite bacon kostar ' + myGourmetSalad.getPrice() + ' kr');
 myGourmetSalad.add('Bacon', inventory['Bacon'], 1)
 console.log('Med extra bacon kostar den ' + myGourmetSalad.getPrice() + ' kr');
-*/
+
 console.log('\n--- Assignment 6 ---------------------------------------')
-/*
+
+
 console.log('Min gourmetsallad har id: ' + myGourmetSalad.id);
 console.log('Min gourmetsallad har uuid: ' + myGourmetSalad.uuid);
-*/
+
 
 /**
  * Reflection question 4
