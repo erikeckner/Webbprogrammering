@@ -1,0 +1,3 @@
+[submodule "lab2.1"]
+	path = lab2.1
+	url = https://github.com/erikeckner/Webbprogrammering.git
